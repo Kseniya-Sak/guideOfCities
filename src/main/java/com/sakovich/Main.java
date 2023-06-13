@@ -2,17 +2,12 @@ package com.sakovich;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         List<City> cityList = getCityList();
-        print(cityList);
-        System.out.println();
-        System.out.println();
+//        print(cityList);
 
         // Сортировка списка городов по их наименованию
         sortCityListByNameOfCity(cityList);
@@ -21,6 +16,17 @@ public class Main {
         // Сортировка списка городов по федеральному округу и наименованию города внутри каждого федерального округа
         sortCityListByDistrictAndNameOfCity(cityList);
 //        print(cityList);
+
+        // Поиск города с наибольшим количеством жителей через Stream
+        findCityWithMaxPopulationUsingStream(cityList);
+
+        // Поиск города с наибольшим количеством жителей через массив по условию задачи
+        findCityWithMaxPopulationUsingArray(cityList);
+
+
+
+
+
 
 
     }
@@ -60,4 +66,25 @@ public class Main {
         cityList.sort(Comparator.comparing(City::getDistrict).thenComparing(City::getName));
     }
 
+    public static void findCityWithMaxPopulationUsingStream(List<City> cityList) {
+        cityList.stream()
+                .max(Comparator.comparing(City::getPopulation))
+                .ifPresentOrElse(city -> System.out.printf("%s=%,d\n", city.getName(), city.getPopulation()),
+                                 () -> System.out.println("Список городов пуст"));
+    }
+
+    public static void findCityWithMaxPopulationUsingArray(List<City> cityList) {
+        City[] cityArray = cityList.toArray(new City[] {});
+        int maxPopulation = cityArray[0].getPopulation();
+        int indexOfCity = 0;
+
+        for (int i = 0; i < cityArray.length; i++) {
+            int population = cityArray[i].getPopulation();
+            if (population > maxPopulation) {
+                maxPopulation = population;
+                indexOfCity = i;
+            }
+        }
+        System.out.printf("[%d]=%,d\n", indexOfCity, maxPopulation);
+    }
 }
