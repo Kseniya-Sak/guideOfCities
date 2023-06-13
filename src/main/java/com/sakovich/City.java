@@ -63,6 +63,6 @@ public class City {
                 ", district='" + district + '\'' +
                 ", population=" + population +
                 ", foundation='" + foundation + '\'' +
-                '}' + "\n";
+                '}';
     }
 }

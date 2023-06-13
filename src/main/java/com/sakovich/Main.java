@@ -3,14 +3,26 @@ package com.sakovich;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         List<City> cityList = getCityList();
-
         print(cityList);
+        System.out.println();
+        System.out.println();
+
+        // Сортировка списка городов по их наименованию
+        sortCityListByNameOfCity(cityList);
+//        print(cityList);
+
+        // Сортировка списка городов по федеральному округу и наименованию города внутри каждого федерального округа
+        sortCityListByDistrictAndNameOfCity(cityList);
+//        print(cityList);
+
+
     }
 
     public static List<City> getCityList() {
@@ -39,4 +51,13 @@ public class Main {
     public static void print(List<City> cityList) {
         cityList.forEach(System.out::println);
     }
+
+    public static void sortCityListByNameOfCity(List<City> cityList) {
+        cityList.sort((city1, city2) -> city1.getName().compareToIgnoreCase(city2.getName()));
+    }
+
+    public static void sortCityListByDistrictAndNameOfCity(List<City> cityList) {
+        cityList.sort(Comparator.comparing(City::getDistrict).thenComparing(City::getName));
+    }
+
 }
