@@ -2,33 +2,34 @@ package com.sakovich;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        // 1 Получить список городов из файла
         List<City> cityList = getCityList();
 //        print(cityList);
 
-        // Сортировка списка городов по их наименованию
+        // 2 Сортировка списка городов по их наименованию
         sortCityListByNameOfCity(cityList);
 //        print(cityList);
 
-        // Сортировка списка городов по федеральному округу и наименованию города внутри каждого федерального округа
+        // 2 Сортировка списка городов по федеральному округу и наименованию города внутри каждого федерального округа
         sortCityListByDistrictAndNameOfCity(cityList);
 //        print(cityList);
 
-        // Поиск города с наибольшим количеством жителей через Stream
+        // 3 Поиск города с наибольшим количеством жителей через Stream
         findCityWithMaxPopulationUsingStream(cityList);
 
-        // Поиск города с наибольшим количеством жителей через массив по условию задачи
+        // 3 Поиск города с наибольшим количеством жителей через массив по условию задачи
         findCityWithMaxPopulationUsingArray(cityList);
 
-
-
-
-
-
-
+        // 4 Поиск количества городов в разрезе регионов
+        findCountCitiesOfRegion(cityList);
     }
 
     public static List<City> getCityList() {
@@ -86,5 +87,11 @@ public class Main {
             }
         }
         System.out.printf("[%d]=%,d\n", indexOfCity, maxPopulation);
+    }
+
+    public static void findCountCitiesOfRegion(List<City> cityList) {
+        cityList.stream()
+                .collect(Collectors.groupingBy(City::getRegion, Collectors.counting()))
+                .forEach((key, value) -> System.out.printf("%s %s - %d\n",'\u2022', key, value));
     }
 }
