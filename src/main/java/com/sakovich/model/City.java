@@ -1,4 +1,4 @@
-package com.sakovich;
+package com.sakovich.model;
 
 public class City {
     private String name;
